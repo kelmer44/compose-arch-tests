@@ -4,42 +4,27 @@
 package com.example.microfeatures.repository
 
 import com.example.microfeatures.datastore.MFDataStore
-import com.example.microfeatures.utils.AvatarSize
-import com.example.microfeatures.utils.Delays
-import kotlinx.coroutines.Delay
+import com.example.microfeatures.model.UserModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.onStart
-import java.util.UUID
 import javax.inject.Inject
 
 class QuickRepository @Inject constructor(
     private val dataStore: MFDataStore
 ) {
 
-    fun getUserData(): Flow<UserData> {
+    fun getUserData(): Flow<UserModel?> {
         return flowOf(
-            UserData(
+            UserModel(
+                50,
                 "Gabriel Sanmartín",
-                UUID.randomUUID().toString(),
                 city = "Santiago de Compostela",
-                "https://i.pravatar.cc/${AvatarSize.size}?img=$avatarId"
             )
         ).onStart {
             delay(dataStore.getQuickDelayMs().first())
         }
-    }
-
-    data class UserData(
-        val name: String = "",
-        val userId: String = "",
-        val city: String = "",
-        val avatarUrl: String = ""
-    )
-
-    companion object {
-        const val avatarId = 50
     }
 }

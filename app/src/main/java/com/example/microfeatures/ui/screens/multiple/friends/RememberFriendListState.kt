@@ -11,7 +11,7 @@ import com.example.microfeatures.repository.SlowRepository
 import com.example.microfeatures.ui.screens.regular.RegularArchitectureViewModel
 
 @Composable
-fun rememberFriendListState() : State<RegularArchitectureViewModel.UiState.FriendList> {
+fun rememberFriendListState() : State<FriendListViewModel.FriendListState> {
     val viewModel: FriendListViewModel = hiltViewModel()
 
     return viewModel.uiState.collectAsStateWithLifecycle()

@@ -3,10 +3,8 @@
  */
 package com.example.microfeatures.repository
 
-import android.util.Log
 import com.example.microfeatures.datastore.MFDataStore
-import com.example.microfeatures.utils.AvatarSize
-import com.example.microfeatures.utils.Delays
+import com.example.microfeatures.model.UserModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -18,38 +16,23 @@ class SlowRepository @Inject constructor(
     private val dataStore: MFDataStore
 ) {
     private fun userList() = listOf(
-        Friend(1, "John"),
-        Friend(2, "Mike"),
-        Friend(3, "Susan"),
-        Friend(4, "Tom"),
-        Friend(5, "Lily"),
-        Friend(6, "Melissa"),
-        Friend(7, "Mike"),
-        Friend(8, "Andrew"),
+        UserModel(1, "John", "New York"),
+        UserModel(2, "Mike", "Amsterdam"),
+        UserModel(3, "Susan", "Berlin"),
+        UserModel(4, "Tom", "London"),
+        UserModel(5, "Lily", "Madrid"),
+        UserModel(6, "Melissa", "Rome"),
+        UserModel(7, "Mike", "Vienna"),
+        UserModel(8, "Andrew", "Sao Paulo"),
     )
 
-    fun getFriendList(userId: Int): Flow<List<Friend>> {
+    fun getFriendList(userId: Int): Flow<List<UserModel>> {
         return flowOf(
             userList()
         )
             .onStart {
                 delay(dataStore.getSlowDelayMs().first())
             }
-    }
-
-
-    data class Friend(
-        val id: Int,
-        val name: String,
-        val imageUrl: String = getImageUrl(id)
-    )
-
-
-    companion object {
-
-        fun getImageUrl(id: Int): String {
-            return "https://i.pravatar.cc/${AvatarSize.size}?img=$id"
-        }
     }
 }
 

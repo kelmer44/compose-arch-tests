@@ -5,11 +5,12 @@ package com.example.microfeatures.ui.screens.multiple.friends
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.microfeatures.model.FriendList
+import com.example.microfeatures.model.UserModel
 import com.example.microfeatures.repository.SlowRepository
-import com.example.microfeatures.ui.component.screen.FriendList
-import com.example.microfeatures.ui.screens.regular.RegularArchitectureViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
@@ -19,12 +20,17 @@ class FriendListViewModel @Inject constructor(
     slowRepository: SlowRepository
 ) : ViewModel() {
 
-    val uiState = slowRepository.getFriendList(1)
-        .map { RegularArchitectureViewModel.UiState.FriendList(friendList = it) }
+    val uiState: StateFlow<FriendListState> = slowRepository.getFriendList(1)
+        .map { FriendListState.Loaded(FriendList(friendList = it)) }
         .stateIn(
             viewModelScope,
             SharingStarted.Lazily,
-            RegularArchitectureViewModel.UiState.FriendList(emptyList())
+            FriendListState.Loading
         )
 
+    sealed interface FriendListState {
+        data object Loading : FriendListState
+        data class Loaded(val friendList: FriendList) : FriendListState
+        data class Error(val string: String) : FriendListState
+    }
 }

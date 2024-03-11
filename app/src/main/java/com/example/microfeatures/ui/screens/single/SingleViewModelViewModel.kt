@@ -5,6 +5,7 @@ package com.example.microfeatures.ui.screens.single
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.microfeatures.model.FriendList
 import com.example.microfeatures.repository.ContinuousRepository
 import com.example.microfeatures.repository.QuickRepository
 import com.example.microfeatures.repository.SlowRepository
@@ -13,6 +14,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
@@ -26,15 +28,13 @@ class SingleViewModelViewModel @Inject constructor(
     val uiState: StateFlow<RegularArchitectureViewModel.UiState> =
         combine(
             slowRepository.getFriendList(1),
-            quickRepository.getUserData(),
+            quickRepository.getUserData().filterNotNull(),
             continuousRepository.getTime()
         ) { friendList, userData, time ->
             RegularArchitectureViewModel.UiState.Loaded(
-                RegularArchitectureViewModel.UiState.FriendList(friendList),
+                FriendList(friendList),
                 userData,
                 time
             )
         }.stateIn(viewModelScope, SharingStarted.Lazily, RegularArchitectureViewModel.UiState.InProgress)
-
-
 }
