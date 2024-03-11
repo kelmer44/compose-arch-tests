@@ -5,7 +5,7 @@ package com.example.microfeatures.ui.single
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.microfeatures.repository.ImmediateRepository
+import com.example.microfeatures.repository.ContinuousRepository
 import com.example.microfeatures.repository.QuickRepository
 import com.example.microfeatures.repository.SlowRepository
 import com.example.microfeatures.ui.regular.RegularArchitectureViewModel
@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SingleViewModelViewModel @Inject constructor(
-    immediateRepository: ImmediateRepository,
+    continuousRepository: ContinuousRepository,
     quickRepository: QuickRepository,
     slowRepository: SlowRepository
 ) : ViewModel() {
@@ -27,7 +27,7 @@ class SingleViewModelViewModel @Inject constructor(
         combine(
             slowRepository.getFriendList(1),
             quickRepository.getUserData(),
-            immediateRepository.getTime()
+            continuousRepository.getTime()
         ) { friendList, userData, time ->
             RegularArchitectureViewModel.UiState.Loaded(
                 RegularArchitectureViewModel.UiState.FriendList(friendList),

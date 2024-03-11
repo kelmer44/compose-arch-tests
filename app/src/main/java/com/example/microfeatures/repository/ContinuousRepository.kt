@@ -21,7 +21,7 @@ import javax.inject.Singleton
 import kotlin.time.Duration.Companion.seconds
 
 @Singleton
-class ImmediateRepository @Inject constructor() {
+class ContinuousRepository @Inject constructor() {
 
     private val _timeStream : MutableStateFlow<Date> = MutableStateFlow(Date())
 
