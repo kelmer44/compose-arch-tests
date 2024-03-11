@@ -1,7 +1,7 @@
 /*
  * Copyright 2024 Sirius XM Holdings Inc. All rights reserved.
  */
-package com.example.microfeatures.ui.multiple.time
+package com.example.microfeatures.ui.screens.multiple.time
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

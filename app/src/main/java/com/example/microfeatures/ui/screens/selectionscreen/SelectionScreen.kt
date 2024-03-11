@@ -1,7 +1,7 @@
 /*
  * Copyright 2024 Sirius XM Holdings Inc. All rights reserved.
  */
-package com.example.microfeatures.ui.selectionscreen
+package com.example.microfeatures.ui.screens.selectionscreen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,6 +16,7 @@ fun SelectionScreen(
     onRegularClicked: () -> Unit,
     onMultipleViewModelsClicked: () -> Unit,
     onSingleViewModelClicked: () -> Unit,
+    onSettingsClicked: () -> Unit
 ) {
     MFScaffold("MicroFeatures test", false) {
         Column(
@@ -31,6 +32,10 @@ fun SelectionScreen(
             }
             Button(onClick = { onSingleViewModelClicked() }) {
                 Text(text = "MicroFeatures with single ViewModel")
+            }
+
+            Button(onClick = { onSettingsClicked() }) {
+                Text(text = "Settings")
             }
         }
     }

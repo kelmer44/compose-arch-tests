@@ -20,6 +20,7 @@ sealed class Screen(val route: String) {
     data object MultipleViewModels : Screen("multiple")
 
     data object SingleViewModel : Screen("single")
+    data object Settings : Screen("settings")
 }
 
 @Composable
@@ -48,6 +49,12 @@ class AppState(
     fun navigateToSingle(from: NavBackStackEntry) {
         if(from.lifecycleIsResumed()){
             navHostController.navigate(Screen.SingleViewModel.route)
+        }
+    }
+
+    fun navigateToSettings(from: NavBackStackEntry) {
+        if(from.lifecycleIsResumed()){
+            navHostController.navigate(Screen.Settings.route)
         }
     }
 

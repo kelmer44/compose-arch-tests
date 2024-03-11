@@ -1,7 +1,7 @@
 /*
  * Copyright 2024 Sirius XM Holdings Inc. All rights reserved.
  */
-package com.example.microfeatures.ui.single
+package com.example.microfeatures.ui.screens.single
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable

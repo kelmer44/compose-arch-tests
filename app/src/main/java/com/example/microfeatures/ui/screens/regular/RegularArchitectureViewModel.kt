@@ -1,7 +1,7 @@
 /*
  * Copyright 2024 Sirius XM Holdings Inc. All rights reserved.
  */
-package com.example.microfeatures.ui.regular
+package com.example.microfeatures.ui.screens.regular
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
@@ -51,6 +51,8 @@ class RegularArchitectureViewModel @Inject constructor(
         data class FriendList(val friendList: List<SlowRepository.Friend>)
 
         data object InProgress : UiState
+
+        data object Error: UiState
     }
 
 }

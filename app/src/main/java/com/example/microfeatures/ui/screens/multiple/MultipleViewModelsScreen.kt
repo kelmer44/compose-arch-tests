@@ -1,7 +1,7 @@
 /*
  * Copyright 2024 Sirius XM Holdings Inc. All rights reserved.
  */
-package com.example.microfeatures.ui.multiple
+package com.example.microfeatures.ui.screens.multiple
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,9 +11,9 @@ import com.example.microfeatures.ui.component.MFScaffold
 import com.example.microfeatures.ui.component.screen.FriendList
 import com.example.microfeatures.ui.component.screen.TimeBar
 import com.example.microfeatures.ui.component.screen.UserData
-import com.example.microfeatures.ui.multiple.friends.rememberFriendListState
-import com.example.microfeatures.ui.multiple.time.rememberTimeState
-import com.example.microfeatures.ui.multiple.user.rememberUserDataState
+import com.example.microfeatures.ui.screens.multiple.friends.rememberFriendListState
+import com.example.microfeatures.ui.screens.multiple.time.rememberTimeState
+import com.example.microfeatures.ui.screens.multiple.user.rememberUserDataState
 
 @Composable
 fun MultipleViewModelsScreen(backAction: () -> Unit) {

@@ -7,10 +7,11 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import com.example.microfeatures.ui.multiple.MultipleViewModelsScreen
-import com.example.microfeatures.ui.regular.RegularArchitectureScreen
-import com.example.microfeatures.ui.selectionscreen.SelectionScreen
-import com.example.microfeatures.ui.single.SingleViewModelScreen
+import com.example.microfeatures.ui.screens.config.ConfigScreen
+import com.example.microfeatures.ui.screens.multiple.MultipleViewModelsScreen
+import com.example.microfeatures.ui.screens.regular.RegularArchitectureScreen
+import com.example.microfeatures.ui.screens.selectionscreen.SelectionScreen
+import com.example.microfeatures.ui.screens.single.SingleViewModelScreen
 
 @Composable
 fun MicroFeaturesTestApp(
@@ -30,6 +31,9 @@ fun MicroFeaturesTestApp(
                 },
                 onSingleViewModelClicked = {
                     appState.navigateToSingle(navBackStackEntry)
+                },
+                onSettingsClicked = {
+                    appState.navigateToSettings(navBackStackEntry)
                 }
             )
         }
@@ -45,6 +49,9 @@ fun MicroFeaturesTestApp(
         }
         composable(Screen.SingleViewModel.route) { navBackStackEntry ->
             SingleViewModelScreen(backAction = backAction)
+        }
+        composable(Screen.Settings.route) { navBackStackEntry ->
+            ConfigScreen(backAction = backAction)
         }
     }
 }

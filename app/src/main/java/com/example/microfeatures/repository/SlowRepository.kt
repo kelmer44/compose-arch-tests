@@ -4,15 +4,19 @@
 package com.example.microfeatures.repository
 
 import android.util.Log
+import com.example.microfeatures.datastore.MFDataStore
 import com.example.microfeatures.utils.AvatarSize
 import com.example.microfeatures.utils.Delays
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
-class SlowRepository @Inject constructor() {
+class SlowRepository @Inject constructor(
+    private val dataStore: MFDataStore
+) {
     private fun userList() = listOf(
         Friend(1, "John"),
         Friend(2, "Mike"),
@@ -29,7 +33,7 @@ class SlowRepository @Inject constructor() {
             userList()
         )
             .onStart {
-                delay(Delays.slow)
+                delay(dataStore.getSlowDelayMs().first())
             }
     }
 

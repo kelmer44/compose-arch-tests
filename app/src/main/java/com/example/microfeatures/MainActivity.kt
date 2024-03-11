@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.microfeatures.ui.MicroFeaturesTestApp
-import com.example.microfeatures.ui.regular.RegularArchitectureScreen
+import com.example.microfeatures.ui.screens.regular.RegularArchitectureScreen
 import com.example.microfeatures.ui.theme.MicroFeaturesTheme
 import dagger.hilt.android.AndroidEntryPoint
 

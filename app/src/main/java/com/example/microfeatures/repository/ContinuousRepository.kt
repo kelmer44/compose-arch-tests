@@ -9,9 +9,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.example.microfeatures.datastore.MFDataStore
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
@@ -21,7 +23,9 @@ import javax.inject.Singleton
 import kotlin.time.Duration.Companion.seconds
 
 @Singleton
-class ContinuousRepository @Inject constructor() {
+class ContinuousRepository @Inject constructor(
+    dataStore: MFDataStore
+) {
 
     private val _timeStream : MutableStateFlow<Date> = MutableStateFlow(Date())
 
@@ -32,7 +36,7 @@ class ContinuousRepository @Inject constructor() {
                 while(isActive){
                     Log.i("TIME", "Emitting new date")
                     _timeStream.emit(Date())
-                    delay(1.seconds)
+                    delay(dataStore.getPeriodMs().first())
                 }
             }
         }

@@ -1,14 +1,14 @@
 /*
  * Copyright 2024 Sirius XM Holdings Inc. All rights reserved.
  */
-package com.example.microfeatures.ui.single
+package com.example.microfeatures.ui.screens.single
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.microfeatures.repository.ContinuousRepository
 import com.example.microfeatures.repository.QuickRepository
 import com.example.microfeatures.repository.SlowRepository
-import com.example.microfeatures.ui.regular.RegularArchitectureViewModel
+import com.example.microfeatures.ui.screens.regular.RegularArchitectureViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow

@@ -1,13 +1,13 @@
 /*
  * Copyright 2024 Sirius XM Holdings Inc. All rights reserved.
  */
-package com.example.microfeatures.ui.multiple.friends
+package com.example.microfeatures.ui.screens.multiple.friends
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.microfeatures.repository.SlowRepository
 import com.example.microfeatures.ui.component.screen.FriendList
-import com.example.microfeatures.ui.regular.RegularArchitectureViewModel
+import com.example.microfeatures.ui.screens.regular.RegularArchitectureViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
