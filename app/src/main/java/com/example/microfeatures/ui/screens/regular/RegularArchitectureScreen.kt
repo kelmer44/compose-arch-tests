@@ -36,7 +36,10 @@ fun RegularArchitectureScreen(
             is RegularArchitectureViewModel.UiState.Loaded ->
                 Loaded(state)
 
-            RegularArchitectureViewModel.UiState.Error -> ErrorView(modifier = Modifier.fillMaxSize())
+            is RegularArchitectureViewModel.UiState.Error -> ErrorView(
+                state.error,
+                modifier = Modifier.fillMaxSize()
+            )
         }
     }
 

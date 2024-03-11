@@ -22,7 +22,13 @@ import com.example.microfeatures.ui.component.Avatar
 
 @Composable
 fun UserData(userData: UserModel) {
-
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(color = MaterialTheme.colorScheme.surfaceContainer)
+            .padding(24.dp),
+        contentAlignment = Alignment.Center
+    ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Avatar(
                 url = userData.avatarUrl,
@@ -34,6 +40,7 @@ fun UserData(userData: UserModel) {
                 Text(text = userData.city, style = MaterialTheme.typography.bodySmall)
             }
         }
+    }
 }
 
 @Preview

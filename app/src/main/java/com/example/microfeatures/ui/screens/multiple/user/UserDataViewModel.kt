@@ -22,9 +22,14 @@ class UserDataViewModel @Inject constructor(
 ) : ViewModel() {
 
     val uiState: StateFlow<UserDataState> = quickRepository
-        .getUserData()
+        .getUserData(1)
         .filterNotNull()
-        .map{ UserDataState.Loaded(it) }
+        .map {
+            val userData = it.getOrNull()
+            if (userData != null) {
+                UserDataState.Loaded(userData)
+            } else UserDataState.Error("Error loading user")
+        }
         .stateIn(viewModelScope, SharingStarted.Lazily, UserDataState.Loading)
 
     sealed interface UserDataState {

@@ -28,12 +28,12 @@ class SingleViewModelViewModel @Inject constructor(
     val uiState: StateFlow<RegularArchitectureViewModel.UiState> =
         combine(
             slowRepository.getFriendList(1),
-            quickRepository.getUserData().filterNotNull(),
+            quickRepository.getUserData(1).filterNotNull(),
             continuousRepository.getTime()
         ) { friendList, userData, time ->
             RegularArchitectureViewModel.UiState.Loaded(
                 FriendList(friendList),
-                userData,
+                userData.getOrThrow(),
                 time
             )
         }.stateIn(viewModelScope, SharingStarted.Lazily, RegularArchitectureViewModel.UiState.InProgress)

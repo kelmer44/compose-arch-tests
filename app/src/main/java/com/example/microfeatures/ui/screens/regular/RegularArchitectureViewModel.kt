@@ -15,6 +15,7 @@ import com.example.microfeatures.repository.SlowRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.stateIn
@@ -29,16 +30,21 @@ class RegularArchitectureViewModel @Inject constructor(
 
     val uiState: StateFlow<UiState> =
         combine(
-            slowRepository.getFriendList(1),
-            quickRepository.getUserData().filterNotNull(),
+            slowRepository.getFriendList(startingId),
+            quickRepository.getUserData(startingId).filterNotNull(),
             continuousRepository.getTime()
         ) { friendList, userData, time ->
 
-            UiState.Loaded(
-                FriendList(friendList),
-                userData,
-                time
-            )
+            val userData = userData.getOrNull()
+            if (userData != null) {
+                UiState.Loaded(
+                    FriendList(friendList),
+                    userData,
+                    time
+                )
+            } else {
+                UiState.Error("Errore retrieving user")
+            }
         }
             .stateIn(viewModelScope, SharingStarted.Lazily, UiState.InProgress)
 
@@ -52,7 +58,11 @@ class RegularArchitectureViewModel @Inject constructor(
 
         data object InProgress : UiState
 
-        data object Error: UiState
+        data class Error(val error: String) : UiState
+    }
+
+    companion object {
+        private const val startingId: Int = 1
     }
 
 }

@@ -45,13 +45,10 @@ fun MultipleViewModelsScreen(backAction: () -> Unit) {
 fun FriendPanel() {
     val rememberFriendListState by rememberFriendListState()
     when (val state = rememberFriendListState) {
-        is FriendListViewModel.FriendListState.Error -> ErrorView()
+        is FriendListViewModel.FriendListState.Error -> ErrorView(state.string)
         is FriendListViewModel.FriendListState.Loaded -> FriendListView(friendList = state.friendList)
-        is FriendListViewModel.FriendListState.Loading ->
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center
-            ) { LoadingView() }
+        is FriendListViewModel.FriendListState.Loading -> LoadingView(modifier = Modifier.fillMaxWidth())
+
     }
 
 }
@@ -59,18 +56,11 @@ fun FriendPanel() {
 @Composable
 fun UserPanel() {
     val userDataState by rememberUserDataState()
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(color = MaterialTheme.colorScheme.surfaceContainer)
-            .padding(24.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        when (val state = userDataState) {
-            is UserDataViewModel.UserDataState.Loaded -> UserData(userData = state.userModel)
-            is UserDataViewModel.UserDataState.Loading -> LoadingView()
-            is UserDataViewModel.UserDataState.Error -> ErrorView()
-        }
+
+    when (val state = userDataState) {
+        is UserDataViewModel.UserDataState.Loaded -> UserData(userData = state.userModel)
+        is UserDataViewModel.UserDataState.Loading -> LoadingView(modifier = Modifier.fillMaxWidth().background(color = MaterialTheme.colorScheme.surfaceContainer).padding(24.dp))
+        is UserDataViewModel.UserDataState.Error -> ErrorView(state.string)
     }
 }
 

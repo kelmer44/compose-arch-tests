@@ -3,6 +3,7 @@
  */
 package com.example.microfeatures.repository
 
+import com.example.microfeatures.datasource.UserDataSource
 import com.example.microfeatures.datastore.MFDataStore
 import com.example.microfeatures.model.UserModel
 import kotlinx.coroutines.delay
@@ -13,16 +14,15 @@ import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
 class QuickRepository @Inject constructor(
-    private val dataStore: MFDataStore
+    private val dataStore: MFDataStore,
+    private val dataSource: UserDataSource
 ) {
 
-    fun getUserData(): Flow<UserModel?> {
+    fun getUserData(userId: Int): Flow<Result<UserModel>> {
         return flowOf(
-            UserModel(
-                50,
-                "Gabriel Sanmartín",
-                city = "Santiago de Compostela",
-            )
+            runCatching {
+                dataSource.getUser(userId)
+            }
         ).onStart {
             delay(dataStore.getQuickDelayMs().first())
         }

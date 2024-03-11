@@ -8,11 +8,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun ErrorView(modifier: Modifier = Modifier){
+fun ErrorView(error: String, modifier: Modifier = Modifier) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier
     ) {
-        Text(text = "There was an error loading this screen!")
+        Text(text = error)
     }
 }

@@ -30,9 +30,9 @@ fun SelectionScreen(
                 Text(text = "MicroFeatures with multiple ViewModels")
 
             }
-            Button(onClick = { onSingleViewModelClicked() }) {
-                Text(text = "MicroFeatures with single ViewModel")
-            }
+//            Button(onClick = { onSingleViewModelClicked() }) {
+//                Text(text = "MicroFeatures with single ViewModel")
+//            }
 
             Button(onClick = { onSettingsClicked() }) {
                 Text(text = "Settings")
