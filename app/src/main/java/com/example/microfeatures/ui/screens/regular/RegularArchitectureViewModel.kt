@@ -69,7 +69,7 @@ class RegularArchitectureViewModel @Inject constructor(
     }
 
     companion object {
-        private const val startingId: Int = 1
+        const val startingId: Int = 1
     }
 
 }
