@@ -4,6 +4,7 @@
 package com.example.microfeatures.ui.component.screen
 
 import android.util.Log
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,29 +22,37 @@ import androidx.compose.ui.unit.dp
 import com.example.microfeatures.model.FriendList
 import com.example.microfeatures.model.UserModel
 import com.example.microfeatures.ui.component.Avatar
-import com.example.microfeatures.ui.screens.regular.RegularArchitectureViewModel
 
 
 @Composable
-fun FriendListView(friendList: FriendList) {
+fun FriendListView(friendList: FriendList, onFriendClicked: (UserModel) -> Unit) {
     Log.i("TEST", "Recomposing")
-        Column {
-            Text(text = "Friend list".uppercase(), modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
-            LazyColumn {
-                friendList.friendList.forEach { user ->
-                    item(key = user.userId) {
-                        FriendItem(user)
-                    }
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Text(
+            text = "Friend list".uppercase(),
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center
+        )
+        LazyColumn {
+            friendList.friendList.forEach { user ->
+                item(key = user.userId) {
+                    FriendItem(user, onFriendClicked)
                 }
             }
         }
+    }
 }
 
 @Composable
-fun FriendItem(user: UserModel) {
+fun FriendItem(user: UserModel, onFriendClicked: (UserModel) -> Unit) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.padding(8.dp)
+        modifier = Modifier
+            .padding(8.dp)
+            .fillMaxWidth()
+            .clickable {
+                onFriendClicked(user)
+            }
     ) {
         Avatar(
             url = user.avatarUrl,
@@ -51,8 +60,16 @@ fun FriendItem(user: UserModel) {
             modifier = Modifier.size(48.dp)
         )
         Column {
-            Text(text = user.name, Modifier.padding(horizontal = 8.dp), style = MaterialTheme.typography.bodyLarge)
-            Text(text = user.city, Modifier.padding(horizontal = 8.dp), style = MaterialTheme.typography.bodySmall)
+            Text(
+                text = user.name,
+                Modifier.padding(horizontal = 8.dp),
+                style = MaterialTheme.typography.bodyLarge
+            )
+            Text(
+                text = user.city,
+                Modifier.padding(horizontal = 8.dp),
+                style = MaterialTheme.typography.bodySmall
+            )
         }
     }
 }
@@ -61,5 +78,8 @@ fun FriendItem(user: UserModel) {
 @Preview
 @Composable
 fun previewFriendItem() {
-    FriendItem(user = UserModel(1, "Mariano Rajoy", "Pontevedra"))
+    FriendItem(
+        user = UserModel(1, "Mariano Rajoy", "Pontevedra"),
+        onFriendClicked = {}
+    )
 }

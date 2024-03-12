@@ -24,9 +24,6 @@ object NetworkModule {
         @ApplicationContext application: Context,
     ): ImageLoader =
         ImageLoader.Builder(application)
-            .apply {
-                logger(DebugLogger())
-            }
             .build()
 
 }

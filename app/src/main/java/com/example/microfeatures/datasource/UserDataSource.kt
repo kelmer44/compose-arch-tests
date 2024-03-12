@@ -13,7 +13,7 @@ class UserDataSource @Inject constructor() {
     private val userList = listOf(
         UserModel(1, "John", "New York"),
         UserModel(2, "Mike", "Amsterdam"),
-//        UserModel(3, "Susan", "Berlin"),
+        UserModel(3, "Susan", "Berlin"),
         UserModel(4, "Tom", "London"),
         UserModel(5, "Lily", "Madrid"),
         UserModel(6, "Melissa", "Rome"),
@@ -21,26 +21,28 @@ class UserDataSource @Inject constructor() {
         UserModel(8, "Andrew", "Sao Paulo"),
         UserModel(9, "Tim", "New York"),
         UserModel(10, "Amy", "Amsterdam"),
-        UserModel(11, "Sophie", "New York"),
-        UserModel(12, "Patrick", "Amsterdam"),
-        UserModel(13, "Francis", "Berlin"),
-        UserModel(14, "Jade", "London"),
-        UserModel(15, "Kim", "Madrid"),
-        UserModel(16, "Kate", "Rome"),
-        UserModel(17, "George", "Vienna"),
-        UserModel(18, "Philip", "Sao Paulo"),
-        UserModel(19, "Susan", "Sao Paulo"),
-        UserModel(20, "Paul", "Sao Paulo"),
+        UserModel(11, "Sophie", "Paris"),
+        UserModel(12, "Patrick", "Cuenca"),
+        UserModel(13, "Francis", "Barcelona"),
+        UserModel(14, "Jade", "San Francisco"),
+        UserModel(15, "Kim", "Los Angeles"),
+        UserModel(16, "Kate", "Portland"),
+        UserModel(17, "George", "Helsinki"),
+        UserModel(18, "Philip", "Stockholm"),
+        UserModel(19, "Susan", "Dublin"),
+        UserModel(20, "Paul", "Glasgow"),
     ).associateBy { it.userId }
 
     fun getUsers() = userList.entries
-
-    fun getUser(id: Int) = if(userList.containsKey(id)) userList.getValue(id) else
-        throw IllegalStateException("No user with given id")
+    fun getUser(id: Int) =
+        if (id == 3) throw IllegalStateException("No user with given id") else userList.getValue(id)
 
     fun getFriendsByUser(id: Int): List<UserModel> {
-        //get random size
-        val size = Random.nextInt(0..userList.size)
-        return userList.values.shuffled().subList(0, size)
+        // By using the same random using the id as a seed, we ensure we get the same size and the
+        // same friends list using that size, provided we stay within the same runtime. i.e. the
+        // method will be deterministic within the same runtime
+        val random = Random(id)
+        val size = random.nextInt(1..userList.size)
+        return userList.values.shuffled(random).subList(0, size)
     }
 }

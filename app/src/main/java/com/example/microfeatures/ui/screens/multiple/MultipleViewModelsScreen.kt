@@ -15,6 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.microfeatures.ui.component.MFScaffold
 import com.example.microfeatures.ui.component.screen.ErrorView
 import com.example.microfeatures.ui.component.screen.FriendListView
@@ -43,10 +44,13 @@ fun MultipleViewModelsScreen(backAction: () -> Unit) {
 
 @Composable
 fun FriendPanel() {
+    val viewModel: FriendListViewModel = hiltViewModel()
     val rememberFriendListState by rememberFriendListState()
     when (val state = rememberFriendListState) {
         is FriendListViewModel.FriendListState.Error -> ErrorView(state.string)
-        is FriendListViewModel.FriendListState.Loaded -> FriendListView(friendList = state.friendList)
+        is FriendListViewModel.FriendListState.Loaded -> FriendListView(friendList = state.friendList) {
+            viewModel.onFriendClicked(it)
+        }
         is FriendListViewModel.FriendListState.Loading -> LoadingView(modifier = Modifier.fillMaxWidth())
 
     }
@@ -59,7 +63,10 @@ fun UserPanel() {
 
     when (val state = userDataState) {
         is UserDataViewModel.UserDataState.Loaded -> UserData(userData = state.userModel)
-        is UserDataViewModel.UserDataState.Loading -> LoadingView(modifier = Modifier.fillMaxWidth().background(color = MaterialTheme.colorScheme.surfaceContainer).padding(24.dp))
+        is UserDataViewModel.UserDataState.Loading -> LoadingView(modifier = Modifier
+            .fillMaxWidth()
+            .background(color = MaterialTheme.colorScheme.surfaceContainer)
+            .padding(24.dp))
         is UserDataViewModel.UserDataState.Error -> ErrorView(state.string)
     }
 }

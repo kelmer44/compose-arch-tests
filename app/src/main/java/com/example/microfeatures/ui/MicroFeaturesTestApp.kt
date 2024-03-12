@@ -8,6 +8,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.example.microfeatures.ui.screens.config.ConfigScreen
+import com.example.microfeatures.ui.screens.factories.FactoriesScreen
+import com.example.microfeatures.ui.screens.factories.friends.FriendListComposableFactory
+import com.example.microfeatures.ui.screens.factories.time.TimeComposableFactory
+import com.example.microfeatures.ui.screens.factories.user.UserComposableFactory
 import com.example.microfeatures.ui.screens.multiple.MultipleViewModelsScreen
 import com.example.microfeatures.ui.screens.regular.RegularArchitectureScreen
 import com.example.microfeatures.ui.screens.selectionscreen.SelectionScreen
@@ -15,7 +19,10 @@ import com.example.microfeatures.ui.screens.single.SingleViewModelScreen
 
 @Composable
 fun MicroFeaturesTestApp(
-    appState: AppState = rememberMicroFeaturesAppState()
+    appState: AppState = rememberMicroFeaturesAppState(),
+    friendListComposableFactory: FriendListComposableFactory,
+    userComposableFactory: UserComposableFactory,
+    timeComposableFactory: TimeComposableFactory
 ) {
     NavHost(
         navController = appState.navHostController,
@@ -34,6 +41,9 @@ fun MicroFeaturesTestApp(
                 },
                 onSettingsClicked = {
                     appState.navigateToSettings(navBackStackEntry)
+                },
+                onFactoriesClicked = {
+                    appState.navigateToFactories(navBackStackEntry)
                 }
             )
         }
@@ -52,6 +62,14 @@ fun MicroFeaturesTestApp(
         }
         composable(Screen.Settings.route) { navBackStackEntry ->
             ConfigScreen(backAction = backAction)
+        }
+        composable(Screen.Factories.route) { navBackStackEntry ->
+            FactoriesScreen(
+                friendListComposableFactory = friendListComposableFactory,
+                userComposableFactory = userComposableFactory,
+                timeComposableFactory = timeComposableFactory,
+                backAction = backAction
+            )
         }
     }
 }

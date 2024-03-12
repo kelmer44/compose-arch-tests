@@ -16,6 +16,7 @@ fun SelectionScreen(
     onRegularClicked: () -> Unit,
     onMultipleViewModelsClicked: () -> Unit,
     onSingleViewModelClicked: () -> Unit,
+    onFactoriesClicked: () -> Unit,
     onSettingsClicked: () -> Unit
 ) {
     MFScaffold("MicroFeatures test", false) {
@@ -29,6 +30,9 @@ fun SelectionScreen(
             Button(onClick = { onMultipleViewModelsClicked() }) {
                 Text(text = "MicroFeatures with multiple ViewModels")
 
+            }
+            Button(onClick = { onFactoriesClicked() }) {
+                Text(text = "MicroFeatures with factories")
             }
 //            Button(onClick = { onSingleViewModelClicked() }) {
 //                Text(text = "MicroFeatures with single ViewModel")

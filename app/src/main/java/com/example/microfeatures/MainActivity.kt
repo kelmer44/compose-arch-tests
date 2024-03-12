@@ -11,17 +11,35 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.microfeatures.ui.MicroFeaturesTestApp
+import com.example.microfeatures.ui.screens.factories.friends.FriendListComposableFactory
+import com.example.microfeatures.ui.screens.factories.time.TimeComposableFactory
+import com.example.microfeatures.ui.screens.factories.user.UserComposableFactory
 import com.example.microfeatures.ui.screens.regular.RegularArchitectureScreen
 import com.example.microfeatures.ui.theme.MicroFeaturesTheme
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var friendListComposableFactory: FriendListComposableFactory
+
+    @Inject
+    lateinit var userComposableFactory: UserComposableFactory
+
+    @Inject
+    lateinit var timeComposableFactory: TimeComposableFactory
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             MicroFeaturesTheme {
-              MicroFeaturesTestApp()
+              MicroFeaturesTestApp(
+                  friendListComposableFactory = friendListComposableFactory,
+                  userComposableFactory = userComposableFactory,
+                  timeComposableFactory = timeComposableFactory
+              )
             }
         }
     }

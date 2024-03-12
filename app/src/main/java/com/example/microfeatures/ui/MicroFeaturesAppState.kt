@@ -19,6 +19,7 @@ sealed class Screen(val route: String) {
 
     data object MultipleViewModels : Screen("multiple")
 
+    data object Factories: Screen("factories")
     data object SingleViewModel : Screen("single")
     data object Settings : Screen("settings")
 }
@@ -58,6 +59,11 @@ class AppState(
         }
     }
 
+    fun navigateToFactories(from: NavBackStackEntry) {
+        if(from.lifecycleIsResumed()){
+            navHostController.navigate(Screen.Factories.route)
+        }
+    }
     fun navigateBack(){
         navHostController.navigateUp()
     }

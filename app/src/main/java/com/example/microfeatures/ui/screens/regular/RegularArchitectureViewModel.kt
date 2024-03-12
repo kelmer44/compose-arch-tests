@@ -3,8 +3,6 @@
  */
 package com.example.microfeatures.ui.screens.regular
 
-import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.microfeatures.model.FriendList
@@ -13,11 +11,13 @@ import com.example.microfeatures.repository.ContinuousRepository
 import com.example.microfeatures.repository.QuickRepository
 import com.example.microfeatures.repository.SlowRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
@@ -28,22 +28,29 @@ class RegularArchitectureViewModel @Inject constructor(
     slowRepository: SlowRepository
 ) : ViewModel() {
 
-    val uiState: StateFlow<UiState> =
-        combine(
-            slowRepository.getFriendList(startingId),
-            quickRepository.getUserData(startingId).filterNotNull(),
-            continuousRepository.getTime()
-        ) { friendList, userData, time ->
+    private val userIdState: MutableStateFlow<Int> = MutableStateFlow(startingId)
 
-            val userData = userData.getOrNull()
-            if (userData != null) {
-                UiState.Loaded(
-                    FriendList(friendList),
-                    userData,
-                    time
-                )
-            } else {
-                UiState.Error("Errore retrieving user")
+    fun onFriendClicked(user: UserModel) {
+        userIdState.value = user.userId
+    }
+
+    val uiState: StateFlow<UiState> =
+        userIdState.flatMapLatest {
+            combine(
+                slowRepository.getFriendList(it),
+                quickRepository.getUserData(it).filterNotNull(),
+                continuousRepository.getTime(),
+            ) { friendList, userData, time ->
+                val thisUserData = userData.getOrNull()
+                if (thisUserData != null) {
+                    UiState.Loaded(
+                        FriendList(friendList),
+                        thisUserData,
+                        time
+                    )
+                } else {
+                    UiState.Error("Error retrieving user")
+                }
             }
         }
             .stateIn(viewModelScope, SharingStarted.Lazily, UiState.InProgress)
