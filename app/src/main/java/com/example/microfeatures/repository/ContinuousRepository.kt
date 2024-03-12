@@ -15,18 +15,20 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import java.util.Date
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.time.Duration.Companion.seconds
 
 @Singleton
 class ContinuousRepository @Inject constructor(
     dataStore: MFDataStore
 ) {
 
-    private val _tickStream : MutableStateFlow<Date> = MutableStateFlow(Date())
+    private val _timeStream : MutableStateFlow<Date> = MutableStateFlow(Date())
 
     init {
         val lifecycleOwner = ProcessLifecycleOwner.get()
@@ -34,7 +36,7 @@ class ContinuousRepository @Inject constructor(
             lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 while(isActive){
                     Log.i("TIME", "Emitting new date")
-                    _tickStream.emit(Date())
+                    _timeStream.emit(Date())
                     delay(dataStore.getPeriodMs().first())
                 }
             }
@@ -42,9 +44,8 @@ class ContinuousRepository @Inject constructor(
     }
 
     fun getTime(): Flow<String> {
-//        return _timeStream.map {
-//            DateFormat.format("HH:mm:ss dd/MM/yyyy", Date()).toString()
-//        }
-        return flowOf(DateFormat.format("HH:mm:ss dd/MM/yyyy", Date()).toString())
+        return _timeStream.map {
+            DateFormat.format("HH:mm:ss dd/MM/yyyy", it).toString()
+        }
     }
 }
