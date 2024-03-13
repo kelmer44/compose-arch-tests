@@ -7,6 +7,8 @@ import com.example.microfeatures.ui.screens.factories.friends.FriendListComposab
 import com.example.microfeatures.ui.screens.factories.friends.FriendListComposableFactoryImpl
 import com.example.microfeatures.ui.screens.factories.friends.FriendsUiModel
 import com.example.microfeatures.ui.screens.factories.friends.FriendsUiModelImpl
+import com.example.microfeatures.ui.screens.factories.host.ScreenHostUiModel
+import com.example.microfeatures.ui.screens.factories.host.ScreenHostUiModelImpl
 import com.example.microfeatures.ui.screens.factories.time.TimeComposableFactory
 import com.example.microfeatures.ui.screens.factories.time.TimeComposableFactoryImpl
 import com.example.microfeatures.ui.screens.factories.time.TimeUiModel
@@ -23,6 +25,9 @@ import dagger.hilt.components.SingletonComponent
 @Module
 @InstallIn(SingletonComponent::class)
 interface FactoriesModule {
+
+    @Binds
+    fun bindsScreenHostUiFactory(factory: ScreenHostUiModelImpl.Factory): ScreenHostUiModel.Factory
 
     @Binds
     fun bindUserUiFactory(factory: UserDataUiModelImpl.Factory): UserDataUiModel.Factory

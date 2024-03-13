@@ -27,7 +27,6 @@ class FriendsUiModelImpl @AssistedInject constructor(
             .onEach { Log.i("FRIENDS", "Friends emitting from $this!") }
             .stateIn(coroutineScope, SharingStarted.Lazily, FriendsUiState.Loading)
 
-
     @AssistedFactory
     interface Factory: FriendsUiModel.Factory {
         override fun create(coroutineScope: CoroutineScope): FriendsUiModelImpl

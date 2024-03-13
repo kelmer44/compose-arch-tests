@@ -10,6 +10,7 @@ import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.microfeatures.ui.component.MFScaffold
 import com.example.microfeatures.ui.screens.factories.friends.FriendListComposableFactory
+import com.example.microfeatures.ui.screens.factories.host.ScreenHostContent
 import com.example.microfeatures.ui.screens.factories.time.TimeComposableFactory
 import com.example.microfeatures.ui.screens.factories.user.UserComposableFactory
 
@@ -23,14 +24,11 @@ fun FactoriesScreen(
 ) {
     Log.w("FRIENDS", "Repainting FactoriesScreen")
     MFScaffold(text = "MicroFeatures with Factories", true, backAction) {
-        val time = remember { timeComposableFactory.create() }
-        val user = remember { userComposableFactory.create() }
-        val friends = remember { friendListComposableFactory.create() }
-
-        Column {
-            time(factoriesViewModel.timeUiModel)
-            user(factoriesViewModel.userUiModel)
-            friends(factoriesViewModel.friendsUiModel)
-        }
+        ScreenHostContent(
+            uiModel = factoriesViewModel.screenHostUiModel,
+            userComposableFactory = userComposableFactory,
+            timeComposableFactory = timeComposableFactory,
+            friendsListComposableFactory = friendListComposableFactory
+        )
     }
 }
